@@ -1,4 +1,7 @@
 const inquirer = require('inquirer');
+const fs = require('fs');
+
+const htmlCreate = require('./src/page-template');
 
 const Engineer = require('./lib/Engineer');
 const Manager = require('./lib/Manager');
@@ -134,8 +137,14 @@ const init = () => {
     console.log('Hello! Get ready to build your team, please answer the following prompts!');
     getManagerInfo()
         .then(data => {
-            console.log(data);
-            
+            const pageHTML = htmlCreate(data);
+            fs.writeFile('./dist/index.html', pageHTML, (err) => {
+                if (err) {
+                    throw err;
+                } 
+                console.log('The file has been created');
+                
+            })
         })
 
 }
